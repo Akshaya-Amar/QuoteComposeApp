@@ -2,8 +2,10 @@ package com.amar.quotescomposeapp
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -54,7 +56,14 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun GenerateScreen(data: List<Quote>) {
-     QuoteListScreen(data)
+     Log.d("check...", "GenerateScreen: ")
+     if (DataManager.currentPage.value == Pages.LISTING) {
+          QuoteListScreen(data) { quote ->
+               DataManager.switchPage(quote)
+          }
+     } else {
+          DataManager.currentQuote?.let { QuoteDetail(it) }
+     }
 }
 
 @Preview(showSystemUi = true)
@@ -153,7 +162,10 @@ private fun QuoteListItemPreview() {
 }*/
 
 @Composable
-fun QuoteDetail() {
+fun QuoteDetail(quote: Quote) {
+     BackHandler {
+          DataManager.switchPage(null)
+     }
      Box(
           contentAlignment = Alignment.Center,
           modifier = Modifier.fillMaxSize()
@@ -173,14 +185,14 @@ fun QuoteDetail() {
                               .rotate(180F)
                     )
                     Text(
-                         text = "Time is the most valuable thing a man can spend",
+                         text = quote.text ?: "N/A",
                          fontSize = 24.sp
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                         text = "Theophrastus",
+                         text = quote.author ?: "N/A",
                          style = MaterialTheme.typography.bodyLarge
                     )
                }
@@ -195,3 +207,8 @@ fun QuoteDetail() {
 private fun QuoteDetailPreview() {
      QuoteDetail()
 }*/
+
+enum class Pages {
+     LISTING,
+     DETAIL
+}

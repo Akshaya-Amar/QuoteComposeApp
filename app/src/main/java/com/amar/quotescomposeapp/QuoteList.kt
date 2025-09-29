@@ -7,10 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun QuoteList(data: List<Quote>) {
+fun QuoteList(data: List<Quote>, onClick: (Quote) -> Unit) {
      LazyColumn(modifier = Modifier.fillMaxSize()) {
-          items(data) { quote->
-               QuoteListItem(quote)
+          items(data) { quote ->
+               QuoteListItem(quote,  onClick)
           }
      }
 }

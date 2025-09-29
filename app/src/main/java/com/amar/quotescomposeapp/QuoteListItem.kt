@@ -2,6 +2,7 @@ package com.amar.quotescomposeapp
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,10 +26,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun QuoteListItem(quote: Quote) {
+fun QuoteListItem(quote: Quote, onClick: (Quote) -> Unit) {
      Card(
           modifier = Modifier
                .fillMaxWidth()
+               .clickable { onClick(quote) }
                .padding(vertical = 8.dp, horizontal = 16.dp),
           elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
           colors = CardDefaults.cardColors(containerColor = Color.White),
